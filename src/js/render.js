@@ -1,10 +1,10 @@
 // Page state, rendering and all click/keyboard handling for the tool directory.
-import { CATS, TOOLS, TASKS, KING_LINKS, byId, catById, taskById, toolsIn, tasksFor } from './data.js';
+import { CATS, TOOLS, TASKS, POPULAR_TASKS, KING_LINKS, byId, catById, taskById, toolsIn, tasksFor } from './data.js';
 import { $, $$, esc, svg, PATHS, EXTERNAL, logo, initials, scrollToEl } from './utils.js';
 
 const STARS_KEY = 'ai-tools-stars';
 const EMPTY_SUGGESTIONS = ['slides', 'images', 'code', 'meetings', 'outreach'];
-const FOOTER_TASKS = ['ask', 'deepresearch', 'agent-code', 'slides', 'music', 'genvideo'];
+const AREAS = CATS.filter(c => c.id !== 'king');
 
 const store = {
   get(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; } },
@@ -65,26 +65,24 @@ const taskButton = t => `<button class="task" type="button" data-task="${t.id}" 
 
 function renderFilters() {
   $('#cats').innerHTML =
-    CATS.map(c => `<button class="pill" type="button" data-cat="${c.id}" aria-pressed="${state.cat === c.id}">${c.name}</button>`).join('') +
+    AREAS.map(c => `<button class="pill" type="button" data-cat="${c.id}" aria-pressed="${state.cat === c.id}">${c.name}</button>`).join('') +
     `<button class="pill" type="button" data-cat="_saved" aria-pressed="${state.saved}">${svg(PATHS.star)}Starred <span class="count">${state.stars.size}</span></button>`;
 }
 
 function renderKings() {
-  $('#kings').innerHTML = `<div class="kings-frame reveal">
+  $('#kings').innerHTML = `<div class="kings-frame">
     <div class="kings-head">
-      <h2 class="badge" id="h-king">The big three</h2>
-      <p>Not sure where to start? Open one of these. They write, research, analyze and code, and cover most of the tasks below on their own.</p>
+      <h2 class="badge" id="h-king">Top picks</h2>
+      <p>Not sure where to start? These four write, research, analyze and code, and cover most jobs on their own.</p>
     </div>
     <div class="king-grid">${toolsIn('king').map(kingCard).join('')}</div>
   </div>`;
 }
 
-function renderTasks() {
-  $('#tasks').innerHTML = CATS.map(c => `
-    <div class="task-group reveal">
-      <span class="lbl">${c.name}</span>
-      ${TASKS.filter(t => t.cat === c.id).map(taskButton).join('')}
-    </div>`).join('');
+// Jobs for the chosen area, or the popular jobs when no area is chosen
+function renderChips() {
+  const list = state.cat ? TASKS.filter(t => t.cat === state.cat) : POPULAR_TASKS.map(id => taskById[id]);
+  $('#chips').innerHTML = `<span class="lbl">${state.cat ? 'Jobs' : 'Popular jobs'}</span>${list.map(taskButton).join('')}`;
 }
 
 const matches = (t, q) => {
@@ -97,9 +95,9 @@ function renderList() {
   const q = state.q.trim().toLowerCase();
 
   if (!q && !state.cat && !state.task && !state.saved) {
-    status.innerHTML = `<p>Showing all <b>${TOOLS.length} tools</b> across ${CATS.length - 1} work areas, plus the big three above.</p>`;
-    out.innerHTML = `<div class="board">${CATS.filter(c => c.id !== 'king').map(c => `
-      <section class="panel reveal" aria-labelledby="h-${c.id}">
+    status.innerHTML = `<p>Showing all <b>${TOOLS.length} tools</b> across ${AREAS.length} work areas, plus the top picks above.</p>`;
+    out.innerHTML = `<div class="board">${AREAS.map(c => `
+      <section class="panel" aria-labelledby="h-${c.id}">
         <div class="panel-head">
           <h2 class="badge" id="h-${c.id}">${svg(c.icon)}${c.name}</h2>
           <span class="tagline">${c.tag}</span>
@@ -110,13 +108,13 @@ function renderList() {
   }
 
   let list = state.task ? taskById[state.task].tools.map(id => byId[id]) : TOOLS;
-  if (state.cat) list = list.filter(t => t.cat === state.cat);
+  if (state.cat && !state.task) list = list.filter(t => t.cat === state.cat);
   if (state.saved) list = list.filter(t => state.stars.has(t.id));
   if (q) list = list.filter(t => matches(t, q));
 
   const parts = [
     state.task && `for <b>${esc(taskById[state.task].label.toLowerCase())}</b>`,
-    state.cat && `in <b>${catById[state.cat].name}</b>`,
+    state.cat && !state.task && `in <b>${catById[state.cat].name}</b>`,
     state.saved && 'that you <b>starred</b>',
     q && `matching <b>“${esc(state.q.trim())}”</b>`
   ].filter(Boolean);
@@ -129,23 +127,20 @@ function renderList() {
     out.innerHTML = `<div class="empty">${msg}<div class="row">${EMPTY_SUGGESTIONS.map(id => taskButton(taskById[id])).join('')}</div></div>`;
     return;
   }
-  const oneArea = state.cat && !state.task;
+  const oneArea = !!state.cat && !state.task;
   out.innerHTML = `<div class="results"><div class="grid">${list.map((t, i) => toolCard(t, { first: !!state.task && i === 0, showCat: !oneArea })).join('')}</div></div>`;
 }
 
 export function render() {
   renderFilters();
   renderKings();
-  renderTasks();
+  renderChips();
   renderList();
 }
 
-// Counts and footer lists only depend on the data, so they render once.
+// The tool count only depends on the data, so it renders once.
 function renderStatic() {
   $$('[data-count]').forEach(el => { el.textContent = TOOLS.length; });
-  $('#foot-cats').innerHTML = CATS.map(c =>
-    `<li><button type="button" data-foot-cat="${c.id}">${c.name} <span style="color:var(--muted)">${toolsIn(c.id).length}</span></button></li>`).join('');
-  $('#foot-tasks').innerHTML = FOOTER_TASKS.map(id => `<li><button type="button" data-task="${id}">${esc(taskById[id].label)}</button></li>`).join('');
 }
 
 // ---------- events ----------
@@ -161,21 +156,19 @@ function toggleStar(id) {
 const ACTIONS = {
   star: el => toggleStar(el.dataset.star),
   cat: el => {
-    const id = el.dataset.cat, fromFooter = !!el.closest('#footer');
-    if (id === '_saved') setFilters({ saved: !state.saved }, { scroll: fromFooter });
-    else setFilters({ cat: state.cat === id ? null : id }, { scroll: fromFooter });
+    const id = el.dataset.cat;
+    if (id === '_saved') setFilters({ saved: !state.saved, task: null });
+    else setFilters({ cat: state.cat === id ? null : id, task: null });
   },
-  footCat: el => setFilters({ ...NO_FILTERS, cat: el.dataset.footCat }, { scroll: true }),
   task: el => {
     const id = state.task === el.dataset.task ? null : el.dataset.task;
-    setFilters(id ? { task: id, q: '', cat: null } : { task: null, q: '' }, { scroll: !!id });
+    setFilters(id ? { task: id, q: '' } : { task: null, q: '' }, { scroll: !!id });
   },
   demo: el => selectTask(el.dataset.demo),
   jump: el => scrollToEl(document.getElementById(el.dataset.jump)),
-  top: () => window.scrollTo({ top: 0 }),
   clear: () => setFilters(NO_FILTERS)
 };
-const ACTION_SELECTOR = '[data-star],[data-cat],[data-foot-cat],[data-task],[data-demo],[data-jump],[data-top],[data-clear]';
+const ACTION_SELECTOR = '[data-star],[data-cat],[data-task],[data-demo],[data-jump],[data-clear]';
 
 function actionFor(el) {
   for (const key of Object.keys(ACTIONS)) if (key in el.dataset) return ACTIONS[key];
@@ -184,7 +177,12 @@ function actionFor(el) {
 
 export function initDirectory() {
   renderStatic();
+  const params = new URLSearchParams(location.hash.slice(1));
+  const wanted = params.get('task'), query = params.get('q');
+  if (wanted && taskById[wanted]) state.task = wanted;
+  if (query) { state.q = query; searchBox().value = query; }
   render();
+  if (state.task || state.q) requestAnimationFrame(() => scrollToEl($('#status')));
 
   document.addEventListener('click', e => {
     const el = e.target.closest(ACTION_SELECTOR);

@@ -7,7 +7,7 @@ import { $, REDUCED, cssVar, sizeCanvas, loadLogo, animate } from './utils.js';
 
 // Rings from the inside out: radius and logo size are fractions of the canvas width, speed in radians/s
 const RINGS = [
-  { r: .23, speed: .16, size: .1, ids: ['claude', 'chatgpt', 'gemini'] },
+  { r: .23, speed: .16, size: .1, ids: ['claude', 'chatgpt', 'gemini', 'grok'] },
   { r: .355, speed: -.1, size: .062, ids: ['kimi', 'cursor', 'midjourney', 'perplexity', 'notion', 'elevenlabs', 'canva', 'deepseek', 'suno', 'lovable'] },
   { r: .445, speed: .065, size: .05, ids: ['gamma', 'heygen', 'apollo', 'manus', 'kling', 'qwen', 'copilot', 'granola', 'clay', 'runway', 'ideogram', 'hubspot', 'bolt', 'notebooklm', 'zapier', 'comet'] }
 ];
@@ -102,7 +102,7 @@ export function initOrbit() {
     ctx.font = `700 ${Math.round(R * .7)}px "Bricolage Grotesque", system-ui, sans-serif`;
     ctx.fillText('AI', cx, cy + R * .04);
 
-    // Logos, outer ring first so the big three sit on top
+    // Logos, outer ring first so the top four sit on top
     drawn.length = 0;
     for (let gi = RINGS.length - 1; gi >= 0; gi--) {
       P[gi].forEach(([x, y], j) => {

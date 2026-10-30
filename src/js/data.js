@@ -2,7 +2,7 @@
 
 // Work areas, in display order. `king` is "The big three". `icon` is SVG path data for a 24×24 stroke icon.
 export const CATS = [
-  { id: 'king', name: 'All-rounders', tag: 'Start here. They do a bit of everything.',
+  { id: 'king', name: 'Top picks', tag: 'Start here. They do a bit of everything.',
     icon: '<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4Z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/>' },
   { id: 'mkt', name: 'Marketing', tag: 'Create. Reach. Grow.',
     icon: '<path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1Z"/><path d="M15 9a3 3 0 0 1 0 6M18 6a7 7 0 0 1 0 12"/>' },
@@ -29,6 +29,7 @@ const TOOL_ROWS = [
   ['claude','Claude','king','https://claude.ai','Your AI coworker for writing, research and analysis. Claude Code is its agent that writes and runs code for you.','Anthropic'],
   ['chatgpt','ChatGPT','king','https://chatgpt.com','The everyday assistant for questions, writing, images and voice. Codex is its agent for building software.','OpenAI'],
   ['gemini','Gemini','king','https://gemini.google.com','Google\u2019s assistant, wired into Gmail, Docs and Search, with Nano Banana images. Gemini CLI brings it to your terminal.','Google'],
+  ['grok','Grok','king','https://grok.com','xAI\u2019s assistant with real-time answers from X and the web, plus image generation.','xAI'],
 
   ['rytr','Rytr','mkt','https://rytr.me','Quick AI copy for emails, ads and product descriptions'],
   ['writesonic','Writesonic','mkt','https://writesonic.com','Long-form blog articles with built-in SEO research'],
@@ -101,10 +102,10 @@ const TOOL_ROWS = [
   ['copilot','GitHub Copilot','code','https://github.com/features/copilot','AI pair programmer inside your editor and GitHub'],
   ['vscode','VS Code','code','https://code.visualstudio.com','The free editor most AI coding extensions run in'],
   ['cline','Cline','code','https://cline.bot','Open-source coding agent that runs inside VS Code'],
+  ['antigravity','Google Antigravity','code','https://antigravity.google','Google\u2019s agent-first IDE where Gemini plans, codes and tests in parallel','Google'],
   ['trae','Trae','code','https://www.trae.ai','Free AI IDE with a built-in builder agent','ByteDance'],
 
-    ['mscopilot','Microsoft Copilot','assist','https://copilot.microsoft.com','AI help across Windows, Edge and Microsoft 365 apps','Microsoft'],
-  ['grok','Grok','assist','https://grok.com','xAI\u2019s assistant with real-time answers from X and the web','xAI'],
+  ['mscopilot','Microsoft Copilot','assist','https://copilot.microsoft.com','AI help across Windows, Edge and Microsoft 365 apps','Microsoft'],
   ['deepseek','DeepSeek','assist','https://www.deepseek.com','Top reasoning model for math, code and logic, free to chat','DeepSeek'],
   ['qwen','Qwen','assist','https://chat.qwen.ai','Alibaba’s open models for chat, coding, images and long documents','Alibaba'],
   ['kimi','Kimi','assist','https://www.kimi.com','Reads very long files and web pages, with agent and slide modes','Moonshot AI'],
@@ -134,18 +135,19 @@ export const TOOLS = TOOL_ROWS.map(([id, name, cat, url, blurb, maker]) => ({
   host: url.replace(/^https:\/\/(www\.)?/, '').replace(/\/$/, '')
 }));
 
-// Extra product links shown on the three big cards.
+// Extra product links shown on the four top cards.
 export const KING_LINKS = {
   claude: [['Desktop app', 'https://claude.ai/download'], ['Claude Code', 'https://claude.com/product/claude-code'], ['Open in browser', 'https://claude.ai']],
   chatgpt: [['Desktop app', 'https://openai.com/chatgpt/download'], ['Codex', 'https://openai.com/codex'], ['Open in browser', 'https://chatgpt.com']],
-  gemini: [['Open Gemini', 'https://gemini.google.com'], ['Gemini CLI', 'https://github.com/google-gemini/gemini-cli'], ['AI Studio', 'https://aistudio.google.com']]
+  gemini: [['Open Gemini', 'https://gemini.google.com'], ['Gemini CLI', 'https://github.com/google-gemini/gemini-cli'], ['AI Studio', 'https://aistudio.google.com']],
+  grok: [['Open Grok', 'https://grok.com'], ['Grok on X', 'https://x.com/i/grok'], ['xAI API', 'https://x.ai/api']]
 };
 
 // Tasks list tools in recommended order: the first one is the best first pick.
 export const TASKS = [
   { id: 'ask', cat: 'king', label: 'Ask anything, get help fast', tools: ['claude','chatgpt','gemini','deepseek','grok'] },
   { id: 'analyze', cat: 'king', label: 'Analyze a file or spreadsheet', tools: ['claude','chatgpt','kimi','notebooklm'] },
-  { id: 'agent-code', cat: 'king', label: 'Let an AI agent build it', tools: ['claude','chatgpt','devin','cursor','cline'] },
+  { id: 'agent-code', cat: 'king', label: 'Let an AI agent build it', tools: ['claude','chatgpt','devin','cursor','antigravity','cline'] },
   { id: 'write', cat: 'mkt', label: 'Write blogs & copy', tools: ['claude','writesonic','rytr','grammarly'] },
   { id: 'seo', cat: 'mkt', label: 'Rank on Google', tools: ['ahrefs','surfer','writesonic'] },
   { id: 'social', cat: 'mkt', label: 'Grow on LinkedIn / X', tools: ['taplio','typefully','canva'] },
@@ -171,7 +173,7 @@ export const TASKS = [
   { id: 'projects', cat: 'prod', label: 'Manage team projects', tools: ['clickup','monday','notion','trello'] },
   { id: 'automate', cat: 'prod', label: 'Automate repetitive work', tools: ['zapier','clay','monday'] },
   { id: 'nocode', cat: 'code', label: 'Build an app without code', tools: ['lovable','bolt','v0','bubble','replit'] },
-  { id: 'code', cat: 'code', label: 'Write & debug code', tools: ['claude','chatgpt','cursor','copilot','windsurf','cline'] },
+  { id: 'code', cat: 'code', label: 'Write & debug code', tools: ['claude','chatgpt','cursor','antigravity','copilot','windsurf','cline'] },
   { id: 'learncode', cat: 'code', label: 'Start coding for free', tools: ['vscode','replit','trae','cline'] },
   { id: 'budget', cat: 'assist', label: 'Strong free models', tools: ['deepseek','qwen','zai','doubao'] },
   { id: 'longdoc', cat: 'assist', label: 'Read very long documents', tools: ['kimi','qwen','minimax'] },
@@ -192,3 +194,90 @@ export const catById = Object.fromEntries(CATS.map(c => [c.id, c]));
 export const taskById = Object.fromEntries(TASKS.map(t => [t.id, t]));
 export const toolsIn = catId => TOOLS.filter(t => t.cat === catId);
 export const tasksFor = toolId => TASKS.filter(t => t.tools.includes(toolId));
+
+// Quick-start jobs shown on the home page before an area is chosen
+export const POPULAR_TASKS = ['ask', 'code', 'agent-code', 'images', 'slides', 'deepresearch', 'meetings', 'genvideo', 'leads', 'voiceover'];
+
+// ---------- New page ----------
+// Dates and descriptions come from the official pages linked on each row (or release trackers where noted);
+// availability changes quickly, so check the linked page.
+
+// Release categories, in chip order
+export const RELEASE_AREAS = [
+  { id: 'agents', name: 'Agents' }, { id: 'coding', name: 'Coding' }, { id: 'image', name: 'Image' },
+  { id: 'video', name: 'Video' }, { id: 'voice', name: 'Voice' }, { id: 'work', name: 'Work' }
+];
+
+// Recent launches, newest first. `tool` ties the entry to a tool on the map (it also gets a logo on the radar).
+// `kind`: "new" is a new product, "update" is a notable change to an existing one. `status` is a short caveat.
+export const RELEASES = [
+  { date: '2026-10-27', name: 'MAI-Image-2.7', maker: 'Microsoft AI', kind: 'new', area: 'image', status: 'Preview',
+    blurb: 'Image editing that restyles, relights, changes text and symbols, and restores old assets.', url: 'https://microsoft.ai/news/mai-image-2-7-debut/' },
+  { date: '2026-10-23', name: 'HeyGen Video 1', maker: 'HeyGen', kind: 'new', area: 'video', tool: 'heygen',
+    blurb: 'Text-to-video that ranked first in a blind Artificial Analysis test.', url: 'https://www.heygen.com' },
+  { date: '2026-10-22', name: 'Claude Duet', maker: 'Anthropic', kind: 'new', area: 'agents', tool: 'claude', status: 'Waitlist',
+    blurb: 'A proactive personal agent with memory and its own cloud computer, now in research preview.', url: 'https://claude.com/product/claude-duet' },
+  { date: '2026-10-22', name: 'Canva Craft', maker: 'Canva', kind: 'new', area: 'image', tool: 'canva',
+    blurb: 'Canva\u2019s own image model, with editable outputs, inside Canva and through an API.', url: 'https://www.canva.com/newsroom/news/canva-craft/' },
+  { date: '2026-10-22', name: 'Eleven Realtime', maker: 'ElevenLabs', kind: 'new', area: 'voice', tool: 'elevenlabs',
+    blurb: 'A voice API for live conversation and real-time translation.', url: 'https://elevenlabs.io/realtime' },
+  { date: '2026-10-22', name: 'Gemini 4 Argon in Antigravity', maker: 'Google', kind: 'update', area: 'coding', tool: 'antigravity', status: 'Pro plans',
+    blurb: 'Google\u2019s newest Gemini model arrives in its agent-first IDE.', url: 'https://antigravity.google/blog/gemini-4-argon-in-google-antigravity' },
+  { date: '2026-10-22', name: '1Password for Agents', maker: '1Password', kind: 'new', area: 'agents', status: 'Waitlist',
+    blurb: 'Lets agents sign in to sites with your vault credentials without ever seeing the password.', url: 'https://1password.com/blog/1password-for-ai-agents' },
+  { date: '2026-10-15', name: 'GPT-Live-1.1', maker: 'OpenAI', kind: 'update', area: 'voice', tool: 'chatgpt', status: 'Varies by region',
+    blurb: 'More natural accents and more language-specific voices in ChatGPT Voice.', url: 'https://openai.com/products/release-notes/' },
+  { date: '2026-10-14', name: 'Grok Voice 3.0', maker: 'xAI', kind: 'update', area: 'voice', tool: 'grok',
+    blurb: 'Speech-to-speech model in the Voice Agent API.', url: 'https://x.ai/news/grok-voice-3' },
+  { date: '2026-10-08', name: 'GPT-6 for everyone', maker: 'OpenAI', kind: 'update', area: 'work', tool: 'chatgpt',
+    blurb: 'GPT-6 becomes ChatGPT\u2019s default for all users, free tier included, with answers that can include charts and forms.', url: 'https://openai.com/products/release-notes/' },
+  { date: '2026-10-08', name: 'Claude for Google Workspace', maker: 'Anthropic', kind: 'update', area: 'work', tool: 'claude', status: 'Beta',
+    blurb: 'A Claude sidebar in Docs, Sheets and Slides that asks before it edits.', url: 'https://claude.com/resources/articles/claude-now-works-in-google-docs-sheets-and-slides' },
+  { date: '2026-10-06', name: 'Nano Banana 2.1', maker: 'Google', kind: 'update', area: 'image', tool: 'gemini',
+    blurb: 'Faster image generation and editing across Gemini, AI Studio and Flow.', url: 'https://deepmind.google/models/model-cards/nano-banana-2-1/' },
+  { date: '2026-10-01', name: 'Dots', maker: 'OpenAI', kind: 'new', area: 'agents', tool: 'chatgpt', status: 'Pro only',
+    blurb: 'Always-on ChatGPT agents that work in their own cloud computer and browser.', url: 'https://openai.com/index/introducing-dots/' },
+  { date: '2026-10-01', name: 'Codex cloud', maker: 'OpenAI', kind: 'update', area: 'coding', tool: 'chatgpt',
+    blurb: 'Run Codex in the cloud and steer it from your phone while your laptop is closed.', url: 'https://learn.chatgpt.com/docs/cloud' },
+  { date: '2026-10-01', name: 'MAI-Transcribe-2 and MAI-Voice-2.1', maker: 'Microsoft', kind: 'new', area: 'voice',
+    blurb: 'Live transcription in 60 languages with partial results in about 100 ms, plus multilingual voices.', url: 'https://microsoft.ai/news/our-first-streaming-transcription-model/' }
+];
+
+// The big stories of the month: what happened and why it matters to someone using these tools
+export const HEADLINES = [
+  { title: 'Agents move to the background', tools: ['claude', 'chatgpt'], url: 'https://claude.com/product/claude-duet', link: 'Claude Duet',
+    what: 'Claude Duet, ChatGPT Dots and Codex cloud all keep working after you close the tab, in their own cloud computer.',
+    why: 'You review and approve instead of prompting step by step.' },
+  { title: 'AI keeps getting cheaper', tools: ['chatgpt'], url: 'https://openai.com/index/introducing-gpt-6-1-terra', link: 'GPT-6.1 Terra',
+    what: 'GPT-6.1 Terra launched at half the standard API price of the earlier GPT-5.6 Terra and GPT-6.1 Sol. One AI price index is also reported down 54% from its May peak.',
+    why: 'Automating small jobs gets cheaper, so more of them are worth doing.' },
+  { title: 'Video and image race ahead', tools: ['heygen', 'canva', 'gemini'], url: 'https://www.canva.com/newsroom/news/canva-craft/', link: 'Canva Craft',
+    what: 'HeyGen Video 1 topped a blind text-to-video test, Canva shipped its own image model, and Nano Banana 2.1 and Microsoft\u2019s MAI-Image-2.7 both landed.',
+    why: 'Design tools now generate editable results, not just pictures.' },
+  { title: 'Guardrails catch up', tools: ['claude'], url: 'https://1password.com/blog/1password-for-ai-agents', link: '1Password for Agents',
+    what: '1Password lets agents sign in without seeing your password, and Claude Duet asks before it sends, pays or deletes.',
+    why: 'Give an agent the least access it needs, and keep a human approval on money and private data.' }
+];
+
+// Newest models by maker. `tool` links to the tool on the map.
+export const MODELS = [
+  { name: 'GPT-6.1 Terra', maker: 'OpenAI', date: '2026-10-26', tool: 'chatgpt',
+    note: 'Fast and efficient, with visual reasoning and computer use at half the API price.', url: 'https://openai.com/index/introducing-gpt-6-1-terra' },
+  { name: 'Kimi K3.1 Pro', maker: 'Moonshot AI', date: '2026-10-23', tool: 'kimi',
+    note: 'Open-weight, 3T-class model with a 1M-token context window.', url: 'https://forum.moonshot.ai/t/kimi-k3-1-pro-has-launched-start-exploring-now/629' },
+  { name: 'Gemini 4 Argon', maker: 'Google', date: '2026-10-13', tool: 'gemini',
+    note: 'Aimed at long-horizon reasoning, via the paid Gemini API and Android Studio.', url: 'https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/' },
+  { name: 'Claude Haiku 5.5', maker: 'Anthropic', date: '2026-10-07', tool: 'claude',
+    note: 'Built for high-volume, cost-sensitive work like summaries, classification and coding subagents.', url: 'https://www.anthropic.com/claude-haiku-5-5' }
+];
+
+// Open-source and open-weight projects worth a look
+export const OPEN_SOURCE = [
+  { name: 'FLUX 3 Image Klein', maker: 'Black Forest Labs', what: 'Open-weight image model (5.6B) for generation, editing and bounding-box control.', url: 'https://huggingface.co/spaces/black-forest-labs/flux-3-image-klein' },
+  { name: 'MOSS-Image', maker: 'OpenMOSS', what: '5B base image model with strong text rendering and layout generation.', url: 'https://github.com/OpenMOSS/MOSS-Image' },
+  { name: 'openqodex', maker: 'openqodex', what: 'A separate reviewer agent that checks your code changes before you push.', url: 'https://github.com/openqodex/openqodex' },
+  { name: 'reason-network', maker: 'reason-machines', what: 'Lets a team\u2019s coding agents talk to each other.', url: 'https://github.com/reason-machines/reason-network' }
+];
+
+// Jobs to try this week: each opens the tool map on that job
+export const TRY_THIS = ['genvideo', 'images', 'agent-code', 'voiceover', 'deepresearch', 'meetings'];

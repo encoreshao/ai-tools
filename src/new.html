@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>New AI releases · AI Tools for Work</title>
+  <meta name="description" content="Recent AI product launches worth a look, newest first, with links to the official pages.">
+  <meta name="theme-color" content="#06070b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='15'%20fill='%2306070b'/%3E%3Ccircle%20cx='32'%20cy='32'%20r='13'%20fill='%23ececf1'/%3E%3Cpath%20d='M32%2010A22%2022%200%200%201%2054%2032M32%2054A22%2022%200%200%201%2010%2032'%20fill='none'%20stroke='%238aa2ff'%20stroke-width='4.5'%20stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="js/new.js"></script>
+</head>
+<body data-page="new">
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="./"><span class="brand-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="13" fill="currentColor"/><path class="arc" d="M32 10A22 22 0 0 1 54 32M32 54A22 22 0 0 1 10 32" fill="none" stroke-width="5" stroke-linecap="round"/></svg></span><span class="brand-name">AI Tools <span>for Work</span></span></a>
+      <label class="search" for="q">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search tools or jobs, e.g. “logo”, “cold email”" autocomplete="off" aria-label="Search tools">
+        <kbd>/</kbd>
+      </label>
+      <nav class="nav" aria-label="Pages">
+        <a href="./">Tools</a>
+        <a href="new.html" aria-current="page">New<span class="badge-n" id="new-count" hidden></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <header class="hero hero-new">
+      <div class="hero-copy">
+        <span class="live"><i></i>Launch radar</span>
+        <h1 aria-label="Fresh off the launchpad"><span class="l1">Fresh off</span><span class="line2">the <span class="w">launchpad</span></span></h1>
+        <p class="lede">New AI products and big updates, plotted by how recently they landed. The closer to the centre, the fresher.</p>
+        <dl class="stats">
+          <div><dt>New products</dt><dd id="stat-new">0</dd></div>
+          <div><dt>Big updates</dt><dd id="stat-upd">0</dd></div>
+          <div><dt>Days covered</dt><dd id="stat-days">0</dd></div>
+        </dl>
+        <div class="ctas">
+          <button class="btn primary" type="button" data-jump="releases">See the list</button>
+          <a class="btn ghost" href="./">Back to all tools</a>
+        </div>
+      </div>
+      <div class="orbit" id="radar-box">
+        <canvas id="radar" aria-hidden="true"></canvas>
+        <a class="orbit-hit" id="radar-hit" href="#" target="_blank" rel="noopener noreferrer" tabindex="-1" hidden><span></span></a>
+      </div>
+    </header>
+  </div>
+
+  <main class="wrap">
+    <section class="block" aria-labelledby="h-head">
+      <div class="block-head"><h2 id="h-head">The big stories</h2><p>What happened this month, and what it means for the tools you use.</p></div>
+      <div class="stories" id="headlines"></div>
+    </section>
+
+    <section class="block" aria-labelledby="h-models">
+      <div class="block-head"><h2 id="h-models">Model watch</h2><p>The newest models from the big labs. Each one powers a tool on the map.</p></div>
+      <div class="models" id="models"></div>
+    </section>
+
+    <section class="block" id="releases" tabindex="-1" aria-labelledby="h-rel">
+      <div class="block-head"><h2 id="h-rel">Every launch</h2><p>New products and notable updates, newest first.</p></div>
+      <div class="cats" id="rel-chips" role="group" aria-label="Filter by category"></div>
+      <div id="releases-list"></div>
+    </section>
+
+    <section class="block" aria-labelledby="h-oss">
+      <div class="block-head"><h2 id="h-oss">Open source to watch</h2><p>Free to run or fork. Good for tinkerers and teams that want control.</p></div>
+      <div class="oss-grid" id="oss"></div>
+    </section>
+
+    <section class="block" aria-labelledby="h-try">
+      <div class="block-head"><h2 id="h-try">Try something this week</h2><p>Each one opens the tool map on that job, with the best first pick on top.</p></div>
+      <div class="try-grid" id="try"></div>
+    </section>
+
+    <p class="fine">Compiled from official announcements and AI release trackers. Availability, plans and pricing change often, so check each linked page.</p>
+  </main>
+
+  <footer class="site-footer">
+    <span>Built by <a href="https://ranbot.online" target="_blank" rel="noopener noreferrer">Encore Shao</a></span>
+    <span>Each card opens the tool's official site. Plans and pricing change often, so check there.</span>
+  </footer>
+</body>
+</html>

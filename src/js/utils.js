@@ -60,3 +60,6 @@ export function animate(frame) {
   document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   return { start, stop, once: () => requestAnimationFrame(frame) };
 }
+
+// Whole days since an ISO date (YYYY-MM-DD)
+export const ageInDays = (iso, now = new Date()) => Math.max(0, Math.floor((now - new Date(iso + 'T00:00:00')) / 864e5));

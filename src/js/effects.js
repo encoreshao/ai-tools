@@ -1,4 +1,4 @@
-// Small decorative effects: the scrolling logo strip and the tilt on the big three cards.
+// Small decorative effects: the scrolling logo strip and the tilt on the top-pick cards.
 import { TOOLS } from './data.js';
 import { $, esc, logo, EXTERNAL, REDUCED, CAN_HOVER } from './utils.js';
 
@@ -14,7 +14,7 @@ export function initMarquee() {
   });
 }
 
-// A gentle 3D tilt that follows the mouse across a big-three card
+// A gentle 3D tilt that follows the mouse across a top-pick card
 export function initTilt() {
   if (!CAN_HOVER || REDUCED) return;
   let tilted = null;
