@@ -70,6 +70,10 @@ a { color: inherit; }
 .badge-n { font-family: var(--font-mono); font-size: 11px; font-weight: 600; line-height: 1; padding: 3px 6px; border-radius: 999px; color: var(--accent-ink); background: var(--accent); }
 .nav a[aria-current="page"] .badge-n { background: var(--bg); color: var(--ink); }
 .top .search { margin-left: auto; }
+.gh-star { display: inline-flex; align-items: center; gap: 6px; flex: none; text-decoration: none; font-size: 14px; font-weight: 600; color: var(--ink); padding: 6px 14px 6px 11px; border-radius: 999px; background: rgba(255,200,61,.08); border: 1px solid rgba(255,200,61,.35); transition: background-color .2s, border-color .2s; }
+.gh-star svg { width: 17px; height: 17px; color: #ffc83d; filter: drop-shadow(0 0 6px rgba(255,200,61,.45)); transition: transform .3s ease-out; }
+.gh-star:hover { background: rgba(255,200,61,.16); border-color: rgba(255,200,61,.6); }
+.gh-star:hover svg { transform: rotate(72deg) scale(1.1); }
 .nav { margin-left: 0; }
 .search { flex: 1 1 240px; position: relative; min-width: 0; max-width: 420px; }
 .search input {
@@ -380,6 +384,8 @@ header.hero-new { padding-block: 56px 72px; }
   .top { border-radius: 24px; padding: 8px 10px; }
   .brand-name span { display: none; }
   .nav { margin-left: auto; order: 2; }
+  .gh-star { order: 2; padding: 7px; }
+  .gh-star span { display: none; }
   .top .search { order: 3; flex-basis: 100%; max-width: none; margin-left: 0; }
   .cats { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 2px; scrollbar-width: none; }
   .cats .pill { flex: 0 0 auto; }
